@@ -33,6 +33,13 @@
             "Barchart\\Laravel\\RememberAll\\": "src"
         }
     },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Barchart\\Laravel\\RememberAll\\RememberAllServiceProvider"
+            ]
+        }
+    },
     "minimum-stability": "dev",
     "prefer-stable": true
 }
