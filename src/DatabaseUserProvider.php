@@ -61,8 +61,6 @@ class DatabaseUserProvider extends BaseUserProvider implements UserProvider
      */
     public function replaceRememberToken($identifier, $token, $newToken, $expire)
     {
-        $model = $this->getModelByIdentifier($identifier);
-
         $this->conn->table('remember_tokens')
                 ->where('user_id', $identifier)
                 ->where('token', $token)
