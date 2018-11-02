@@ -17,15 +17,19 @@ class DatabaseUserProvider extends BaseUserProvider implements UserProvider
      */
     public function retrieveByToken($identifier, $token)
     {
-        $user = $this->conn->table($this->table)
+        $user = $this->getGenericUser(
+            $this->conn->table($this->table)->find($identifier)
+        );
+
+        $query = $this->conn->table($this->table)
                 ->select($this->table.'.*')
-                ->leftJoin('remember_tokens', 'remember_tokens.user', '=', $this->table.'.'.$user->getAuthIdentifierName())
+                ->leftJoin('remember_tokens', 'remember_tokens.user_id', '=', $this->table.'.'.$user->getAuthIdentifierName())
                 ->where($this->table.'.'.$user->getAuthIdentifierName(), $identifier)
                 ->where('remember_tokens.token', $token)
                 ->where('remember_tokens.expires_at', '<', Carbon::now())
                 ->first();
 
-        return $user ? $this->getGenericUser($user) : null;
+        return $query ? $user : null;
     }
 
     /**
@@ -37,9 +41,11 @@ class DatabaseUserProvider extends BaseUserProvider implements UserProvider
      */
     public function addRememberToken($identifier, $value, $expire)
     {
-        $this->conn->table('remember_tokens')->create([
+        $this->conn->table('remember_tokens')->insert([
             'token' => $value,
             'user_id' => $identifier,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
             'expires_at' => Carbon::now()->addMinutes($expire),
         ]);
     }
@@ -62,7 +68,7 @@ class DatabaseUserProvider extends BaseUserProvider implements UserProvider
                 ->where('token', $token)
                 ->update([
                     'token' => $newToken,
-                    'expires_at' => Carbon::now()->addMinutes($expire);
+                    'expires_at' => Carbon::now()->addMinutes($expire),
                 ]);
     }
 
@@ -91,8 +97,7 @@ class DatabaseUserProvider extends BaseUserProvider implements UserProvider
     public function purgeRememberTokens($identifier, $expired = false)
     {
         $query = $this->conn->table('remember_tokens')
-                        ->where('user_id', $identifier)
-                        ->where('remember_tokens.token', $token);
+                        ->where('user_id', $identifier);
 
         if ($expired) {
             $query->where('expires_at', '<', Carbon::now());
