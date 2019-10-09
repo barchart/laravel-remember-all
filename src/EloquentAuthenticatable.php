@@ -3,12 +3,10 @@
 namespace Barchart\Laravel\RememberAll;
 
 use Carbon\Carbon;
-use Illuminate\Auth\Authenticatable as BaseAuthenticatable;
+use Illuminate\Foundation\Auth\User as BaseAuthenticatable;
 
-trait EloquentAuthenticatable
+class EloquentAuthenticatable extends BaseAuthenticatable
 {
-    use BaseAuthenticatable;
-
     /**
      * Get the "remember me" session tokens for the user.
      *
