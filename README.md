@@ -25,8 +25,23 @@ Update your authentication guard:
 ],
 ```
 
-For Eloquent, you also need to update your model. Just replace Laravel's default `Authenticatable` and `AuthenticatableContract` with the following:
+For Eloquent, you also need to update your model. Just replace Laravel's default `User` model with the following:
+```php
+use Barchart\Laravel\RememberAll\User as Authenticatable;
+
+class User extends Authenticatable
+{
+
+}
+```
+
+If you're not extending off of Laravel's base `User` model and instead extending directly off of Eloquent's `Model`, replace Laravel's default `Authenticatable` and `AuthenticatableContract` with the following:
 ```php
 use Barchart\Laravel\RememberAll\EloquentAuthenticatable as Authenticatable;
 use Barchart\Laravel\RememberAll\Contracts\Authenticatable as AuthenticatableContract;
+
+class User extends Model implements AuthenticatableContract
+{
+    use Authenticatable;
+}
 ```
