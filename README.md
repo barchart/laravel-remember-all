@@ -25,6 +25,7 @@ Update your authentication guard:
 ],
 ```
 
+#### Eloquent
 For Eloquent, you also need to update your model. Just replace Laravel's default `User` model with the following:
 ```php
 use Barchart\Laravel\RememberAll\User as Authenticatable;
