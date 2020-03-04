@@ -23,7 +23,7 @@
         }
     ],
     "require": {
-        "illuminate/auth": "~5.7|~6.0"
+        "illuminate/auth": "~5.7|~6.0|~7.0"
     },
     "require-dev": {
         "mockery/mockery": "~1.0"
