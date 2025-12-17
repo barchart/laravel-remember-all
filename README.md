@@ -1,4 +1,7 @@
 ## Laravel Remember All Devices
+
+### Note: This repo has been archived as Laravel supports logging out a single device since Laravel 6.0 via `logoutCurrentDevice`. More information in the PR here: https://github.com/laravel/framework/pull/29397
+
 Laravel currently only supports the "remember me" feature for one device. When you log in to multiple devices, then log out of one, you will be logged out of all. This solves that by storing the tokens in a separate table.
 
 There is a current proposal to put this into Laravel core, but we needed this now: https://github.com/laravel/ideas/issues/971
